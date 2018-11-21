@@ -7,5 +7,5 @@
  */
 return [
     'token_salt' => 'waffaEFE6243NLLhugh89f',
-    'pay_back_url' => 'http://zerg.cn/api/v1/pay/notify',
+    'pay_back_url' => 'http://ecapi.myyunpeng.com/api/v1/pay/notify',
 ];

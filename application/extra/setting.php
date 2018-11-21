@@ -6,6 +6,6 @@
  * Time: 19:57
  */
 return [
-    'img_prefix' => 'http://zerg.cn/images',
+    'img_prefix' => 'http://ecapi.myyunpeng.com/images',
     'token_expire_in' => 7200
 ];
