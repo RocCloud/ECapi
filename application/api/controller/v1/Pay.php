@@ -34,7 +34,7 @@ class Pay extends BaseController
         log::init([
              'type' => 'File',
              'path' => LOG_PATH,
-              'level' => ['error']
+              'level' => []
          ]);
         Log::record('nihao', 'error');
     }
