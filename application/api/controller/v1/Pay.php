@@ -31,11 +31,7 @@ class Pay extends BaseController
         //$wxNotify = new WxNotifyService();
         //$wxNotify->Handle();
         $xmlData = file_get_contents('php://input');
-        log::init([
-             'type' => 'File',
-             'path' => LOG_PATH.'error/',
-              'level' => []
-         ]);
+
         Log::record('nihao', 'error');
     }
 }
