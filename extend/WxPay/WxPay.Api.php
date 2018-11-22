@@ -412,7 +412,8 @@ class WxPayApi
 	public static function notify($callback, &$msg)
 	{
 		//获取通知的数据
-		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		//$xml = $GLOBALS['HTTP_RAW_POST_DATA'];            //php7废弃了此方法
+        $xml = file_get_contents("php://input");
 		//如果返回成功则验证签名
 		try {
 			$result = WxPayResults::Init($xml);
