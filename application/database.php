@@ -15,11 +15,11 @@ return [
     // 服务器地址
     'hostname'        => '127.0.0.1',
     // 数据库名
-    'database'        => 'ecapi',
+    'database'        => 'zerg',
     // 用户名
-    'username'        => 'yunpeng',
+    'username'        => 'root',
     // 密码
-    'password'        => 'Saber,2468.',
+    'password'        => '123456',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

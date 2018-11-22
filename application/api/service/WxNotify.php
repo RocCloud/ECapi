@@ -23,9 +23,10 @@ class WxNotify extends \WxPayNotify
 {
     public function NotifyProcess($data, &$msg){
         if($data['result_code'] == 'SUCCESS'){
+            $orderNo = $data['out_trade_no'];
             Db::startTrans();
             try {
-                $order = OrderModel::where('order_no', '=', $data['out_trade_no'])->find();
+                $order = OrderModel::where('order_no', '=', $orderNo)->find();
                 if ($order->status == 1) {
                     $orderService=new OrderService();
                     $stockStatus=$orderService->checkOrderStock($order->id);
@@ -58,7 +59,7 @@ class WxNotify extends \WxPayNotify
 
     //更新订单状态
     private function updateOrderStatus($orderID,$passStatus){
-        $passStatus ? OrderStatusEnum::PAID :OrderStatusEnum::PAID_BUT_OUT_OF;
-        OrderModel::where('id','=',$orderID)->update(['status'=>$passStatus]);
+        $status = $passStatus ? OrderStatusEnum::PAID :OrderStatusEnum::PAID_BUT_OUT_OF;
+        OrderModel::where('id','=',$orderID)->update(['status'=>$status]);
     }
 }
