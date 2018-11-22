@@ -36,6 +36,6 @@ class Pay extends BaseController
              'path' => LOG_PATH,
               'level' => ['error']
          ]);
-        Log::record($xmlData, 'error');
+        Log::record('nihao', 'error');
     }
 }
