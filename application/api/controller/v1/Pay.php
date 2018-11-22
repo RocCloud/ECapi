@@ -33,7 +33,7 @@ class Pay extends BaseController
         $xmlData = file_get_contents('php://input');
         log::init([
              'type' => 'File',
-             'path' => LOG_PATH,
+             'path' => LOG_PATH.'error/',
               'level' => []
          ]);
         Log::record('nihao', 'error');
