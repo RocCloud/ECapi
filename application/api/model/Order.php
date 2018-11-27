@@ -1,6 +1,7 @@
 <?php
 
 namespace app\api\model;
+use app\lib\enum\OrderStatusEnum;
 
 class Order extends BaseModel
 {
@@ -27,5 +28,9 @@ class Order extends BaseModel
 
     public static function getSummaryByPage($page=1,$size=20){
         return self::order('create_time desc')->paginate($size,true,['page'=>$page]);
+    }
+
+    public static function PaymentDelay($orderID){
+        return self::where('id','=',$orderID)->update(['status' => OrderStatusEnum::Pay_Overtime]);
     }
 }

@@ -19,4 +19,6 @@ class OrderStatusEnum
     const  DELIVERED  = 3;
     //已支付，但库存不足
     const  PAID_BUT_OUT_OF  = 4;
+    //支付超时
+    const Pay_Overtime = 5;
 }

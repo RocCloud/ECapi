@@ -13,7 +13,6 @@ use app\api\controller\BaseController;
 use app\api\service\Pay as PayService;
 use app\api\service\WxNotify as WxNotifyService;
 use app\api\validate\IDMustBePostiveInt;
-use think\Log;
 
 class Pay extends BaseController
 {

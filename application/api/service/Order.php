@@ -63,6 +63,9 @@ class Order
             $orderProduct = new OrderProductModel();
             $orderProduct->saveAll($this->oProducts);
             Db::commit();
+            //将order_id存入redis，用做后续订单未支付自动回库
+            $myredis=new MyRedis();
+            $myredis->setex($order->id,config('setting.payment_delay'),$order->id);
             return [
                 'order_no' => $orderNo,
                 'order_id' => $order->id,
