@@ -18,9 +18,12 @@ class CloseOrder extends DelayJob
         // payload 里应该有处理任务所需的参数，通过DelayQueue的addTask传入
         //print_r('test job'.PHP_EOL);
         $args = $this->payload;
-        $res = Order::PaymentDelay($args['order_id']);
-        if ($res){
-            return true;
+        $order=Order::getOrderByID($args['order_id']);
+        if($order->status == 1){
+            $res = Order::PaymentDelay($args['order_id']);
+            if ($res){
+                return true;
+            }
         }
     }
 }

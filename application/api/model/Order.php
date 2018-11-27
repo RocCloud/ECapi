@@ -33,4 +33,8 @@ class Order extends BaseModel
     public static function PaymentDelay($orderID){
         return self::where('id','=',$orderID)->update(['status' => OrderStatusEnum::Pay_Overtime]);
     }
+
+    public static function getOrderByID($orderID){
+        return self::where('id','=',$orderID)->find();
+    }
 }
