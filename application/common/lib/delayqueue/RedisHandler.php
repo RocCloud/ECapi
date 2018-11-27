@@ -8,14 +8,14 @@
 
 namespace app\common\lib\delayqueue;
 
-use think\cache\driver\Redis;
+
 class RedisHandler
 {
     public $provider;
     private static $_instance = null;
 
     private function __construct() {
-        $this->provider = new Redis();
+        $this->provider = new \Redis();
         //host port
         $config = require_once 'config.php';
         $this->provider->connect($config['redis_host'], $config['redis_port']);
