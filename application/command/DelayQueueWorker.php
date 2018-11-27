@@ -21,7 +21,7 @@ class DelayQueueWorker extends Command
 
     protected function configure()
     {
-        $this->setName('Delay-queue')->setDescription('Delay the queue task process');
+        $this->setName('delay-queue')->setDescription('Delay the queue task process');
         $this->addArgument(self::COMMAND_ARGV_1);
     }
 
