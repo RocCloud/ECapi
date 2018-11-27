@@ -14,6 +14,7 @@ use app\api\model\OrderProduct as OrderProductModel;
 use app\api\model\OrderProduct;
 use app\api\model\Product;
 use app\api\model\UserAddress;
+use app\common\lib\delayqueue\DelayQueue;
 use app\lib\enum\OrderStatusEnum;
 use app\lib\exception\OrderException;
 use app\lib\exception\UserException;
@@ -63,9 +64,14 @@ class Order
             $orderProduct = new OrderProductModel();
             $orderProduct->saveAll($this->oProducts);
             Db::commit();
+
             //将order_id存入redis，用做后续订单未支付自动回库
-            $myredis=new MyRedis();
-            $myredis->setex($order->id,config('setting.payment_delay'),$order->id);
+            DelayQueue::getInstance('close_order')->addTask(
+                'app\common\lib\delayqueue\job\CloseOrder', // 自己实现的job
+                strtotime('+1 minute'), // 订单失效时间
+                ['order_id' => $order->id] // 传递给job的参数
+            );
+
             return [
                 'order_no' => $orderNo,
                 'order_id' => $order->id,
