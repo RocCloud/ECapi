@@ -1,5 +1,7 @@
 <?php
-use \app\api\service\MyRedis;
+namespace app\api\service;
+
+use \app\api\service\MyRedis as MyRedis;
 use \app\api\model\Order as OrderModel;
 
 ini_set('default_socket_timeout', -1);  //不超时
