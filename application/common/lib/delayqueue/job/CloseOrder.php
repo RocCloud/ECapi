@@ -19,8 +19,10 @@ class CloseOrder extends DelayJob
         print_r('test job'.PHP_EOL);
         $args = $this->payload;
         $order=Order::getOrderByID($args['order_id']);
+        print_r($order);
         if($order->status == 1){
             $res = Order::PaymentDelay($args['order_id']);
+            print_r($res);
             if ($res){
                 return true;
             }
