@@ -44,9 +44,10 @@ class PayOvertimeWorker extends Command
             if($order->status == 1){
                 $res = OrderModel::PaymentDelay($msg);
                 if ($res){
-                    Log::write('order_id:'.$order->id .' status update success'."\r\n");
+                    print_r(LOG_PATH.'command/payovertime/');
+                    Log::write('order_id:'.$order->id .' status update success'."\r\n" ,'info');
                 }else{
-                    Log::write('order_id:'.$order->id .' status update failed'."\r\n");
+                    Log::write('order_id:'.$order->id .' status update failed'."\r\n" ,'info');
                 }
             }
         });
