@@ -20,6 +20,7 @@ use app\lib\exception\OrderException;
 use app\lib\exception\UserException;
 use think\Db;
 use think\Exception;
+use app\common\lib\payovertime\MyRedis;
 
 class Order
 {
@@ -66,11 +67,13 @@ class Order
             Db::commit();
 
             //将order_id存入redis，用做后续订单未支付自动回库
-            DelayQueue::getInstance('close_order')->addTask(
+/*            DelayQueue::getInstance('close_order')->addTask(
                 'app\common\lib\delayqueue\job\CloseOrder', // 自己实现的job
                 strtotime('+1 minute'), // 订单失效时间
                 ['order_id' => $order->id] // 传递给job的参数
-            );
+            );*/
+            $redis = new MyRedis();
+            $redis->setex($order->id,60,$order->id);
 
             return [
                 'order_no' => $orderNo,
