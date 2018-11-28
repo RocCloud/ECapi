@@ -26,6 +26,8 @@ class CloseOrder extends DelayJob
             if ($res){
                 return true;
             }
+        }else{
+            return true;
         }
     }
 }

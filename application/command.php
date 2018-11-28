@@ -10,5 +10,6 @@
 // +----------------------------------------------------------------------
 
 return [
-    'app\command\DelayQueueWorker'
+    'app\command\DelayQueueWorker',
+    'app\command\PayOvertimeWorker'
 ];
