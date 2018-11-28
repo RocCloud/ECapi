@@ -8,5 +8,5 @@
 return [
     'img_prefix' => 'http://zerg.cn/images',
     'token_expire_in' => 7200,
-    'payment_delay' => 3600
+    'payment_delay' => 7200
 ];

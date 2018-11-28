@@ -73,7 +73,7 @@ class Order
                 ['order_id' => $order->id] // 传递给job的参数
             );*/
             $redis = new MyRedis();
-            $redis->setex($order->id,60,$order->id);
+            $redis->setex($order->id,config('setting.payment_delay'),$order->id);
 
             return [
                 'order_no' => $orderNo,
