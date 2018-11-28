@@ -37,16 +37,16 @@ class PayOvertimeWorker extends Command
                 // 日志保存目录
                 'path'  => LOG_PATH.'command/payovertime/',
                 // 日志记录级别
-                'level' => [],
+                'level' => ['info'],
              ]);
             // 回调函数,这里写处理逻辑
             $order=OrderModel::getOrderByID($msg);
             if($order->status == 1){
                 $res = OrderModel::PaymentDelay($msg);
                 if ($res){
-                    Log::record('order_id:'.$order->id .' status update success'."\r\n");
+                    Log::write('order_id:'.$order->id .' status update success'."\r\n");
                 }else{
-                    Log::record('order_id:'.$order->id .' status update failed'."\r\n");
+                    Log::write('order_id:'.$order->id .' status update failed'."\r\n");
                 }
             }
         });
