@@ -10,10 +10,14 @@ namespace app\command;
 
 
 use app\api\model\Order as OrderModel;
+use app\api\model\OrderProduct;
+use app\api\model\Product as ProductModel;
 use think\console\Command;
 use think\console\Input;
 use think\console\Output;
 use app\common\lib\payovertime\MyRedis;
+use think\Db;
+use think\Exception;
 use think\Log;
 
 class PayOvertimeWorker extends Command
@@ -37,18 +41,28 @@ class PayOvertimeWorker extends Command
                 // 日志保存目录
                 'path'  => ROOT_PATH.'log/command/payovertime/',
                 // 日志记录级别
-                'level' => ['info'],
+                'level' => [],
              ]);
             // 回调函数,这里写处理逻辑
-            $order=OrderModel::getOrderByID($msg);
-            if($order->status == 1){
-                $res = OrderModel::PaymentDelay($msg);
-                if ($res){
-                    print_r(ROOT_PATH.'log/command/payovertime/');
-                    Log::write('order_id:'.$order->id .' status update success'."\r\n" ,'info');
-                }else{
-                    Log::write('order_id:'.$order->id .' status update failed'."\r\n" ,'info');
+            Db::startTrans();
+            try {
+                $order = OrderModel::getOrderByID($msg);
+                if ($order->status == 1) {
+                    $res = OrderModel::PaymentDelay($msg);
+                    if ($res) {
+                        $proItems = OrderProduct::getDataByOrderID($msg);
+                        foreach ($proItems as $item) {
+                            ProductModel::where('id', '=', $item['product_id'])->setInc('stock', $item['count']);
+                        }
+                        Log::write('order_id:' . $order->id . ' status update success' . "\r\n", 'info');
+                    } else {
+                        Log::write('order_id:' . $order->id . ' status update failed' . "\r\n", 'info');
+                    }
                 }
+                Db::commit();
+            }catch (Exception $ex){
+                Db::rollback();
+                Log::write($ex,'error');
             }
         });
     }
