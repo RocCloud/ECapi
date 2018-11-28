@@ -133,7 +133,7 @@ class Order
         foreach ($oProducts as $item){
             array_push($oPIDs,$item['product_id']);
         }
-        $products=Product::all($oPIDs);
+        $products=ProductModel::all($oPIDs);
         $products->visible(['id','price','stock','name','main_img_url']);
         return $products;
     }
