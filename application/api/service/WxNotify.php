@@ -32,7 +32,7 @@ class WxNotify extends \WxPayNotify
                     $stockStatus=$orderService->checkOrderStock($order->id);
                     if($stockStatus['pass']){
                         $this->updateOrderStatus($order->id,true);
-                        $this->reduceStock($stockStatus);
+                        //$this->reduceStock($stockStatus);
                     }else{
                         $this->updateOrderStatus($order->id,false);
                     }

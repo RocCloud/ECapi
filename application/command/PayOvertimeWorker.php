@@ -28,6 +28,7 @@ class PayOvertimeWorker extends Command
         $this->setName('pay-overtime')->setDescription('Pay Overtime');
     }
 
+    //支付超时，执行回库
     protected function execute(Input $input, Output $output)
     {
         ini_set('default_socket_timeout', -1);  //不超时
@@ -35,6 +36,7 @@ class PayOvertimeWorker extends Command
         $redis = new  MyRedis();
         // 解决Redis客户端订阅时候超时情况
         $redis->setOption();
+        //redis 过期事件监听函数
         $redis->psubscribe(array('__keyevent@0__:expired'), function ($redis, $pattern, $chan, $msg){
             Log::init([
                 'type'  => 'file',
@@ -54,9 +56,9 @@ class PayOvertimeWorker extends Command
                         foreach ($proItems as $item) {
                             ProductModel::where('id', '=', $item['product_id'])->setInc('stock', $item['count']);
                         }
-                        Log::write('order_id:' . $order->id . ' status update success' . "\r\n", 'info');
+                        Log::write('order_id:' . $order->id . ' status and products stock update success' . "\r\n", 'info');
                     } else {
-                        Log::write('order_id:' . $order->id . ' status update failed' . "\r\n", 'info');
+                        Log::write('order_id:' . $order->id . ' status and products stock update failed' . "\r\n", 'info');
                     }
                 }
                 Db::commit();
