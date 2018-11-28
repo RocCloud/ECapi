@@ -31,10 +31,8 @@ class PayOvertimeWorker extends Command
         $redis = new  MyRedis();
         // 解决Redis客户端订阅时候超时情况
         $redis->setOption();
-        $redis->psubscribe(array('__keyevent@0__:expired'), 'keyCallback');
-        // 回调函数,这里写处理逻辑
-        function keyCallback($redis, $pattern, $chan, $msg)
-        {
+        $redis->psubscribe(array('__keyevent@0__:expired'), function ($redis, $pattern, $chan, $msg){
+            // 回调函数,这里写处理逻辑
             $order=OrderModel::getOrderByID($msg);
             print_r($order);
             if($order->status == 1){
@@ -46,6 +44,6 @@ class PayOvertimeWorker extends Command
             }else{
                 print_r('ok');
             }
-        }
+        });
     }
 }
