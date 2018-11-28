@@ -77,7 +77,7 @@ class DelayQueue
 
         $jobInfo = unserialize($result[0]);
 
-        print_r('job: '.$jobInfo['class'].' will run at: '. date('Y-m-d H:i:s',$jobInfo['runtime']).PHP_EOL);
+        //print_r('job: '.$jobInfo['class'].' will run at: '. date('Y-m-d H:i:s',$jobInfo['runtime']).PHP_EOL);
 
         $jobClass = $jobInfo['class'];
 
