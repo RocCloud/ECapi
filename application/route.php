@@ -36,6 +36,7 @@ Route::group('api/:versions/order',function (){
     Route::get('/by_user','api/:versions.Order/getSummaryByUser');
     Route::get('/paginate','api/:versions.Order/getSummary');
     Route::put('/delivery','api/:versions.Order/delivery');
+    Route::get('/by_status','api/:versions.Order/getSummaryByStatus');
 });
 
 Route::group('api/:versions/pay',function (){

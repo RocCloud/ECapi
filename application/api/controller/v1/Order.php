@@ -16,6 +16,7 @@ use app\api\service\Token as TokenService;
 use app\api\service\Order as OrderService;
 use app\api\validate\PagingParameter;
 use app\api\model\Order as OrderModel;
+use app\api\validate\StatusMustBePostiveInt;
 use app\lib\exception\OrderException;
 use app\lib\exception\SuccessMessage;
 
@@ -54,6 +55,26 @@ class Order extends BaseController
         }
     }
 
+    //用户根据订单状态分页查询历史订单
+    public function getSummaryByStatus($page=1,$size=15,$status){
+        (new PagingParameter())->goCheck();
+        (new StatusMustBePostiveInt())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $pagingOrders=OrderModel::getSummaryByStatus($status,$uid,$page,$size);
+        if($pagingOrders->isEmpty()){
+            return [
+                'data' => [],
+                'current_page' => $page,
+            ];
+        }else{
+            $data=$pagingOrders->hidden(['snap_items','snap_address','prepay_id'])->toArray();
+            return [
+                'data' => $data,
+                'current_page' => $page,
+            ];
+        }
+    }
+
     //获取订单详情
     public function getDetail($id){
         (new IDMustBePostiveInt())->goCheck();
@@ -63,6 +84,7 @@ class Order extends BaseController
         }
         return $orderDetail->hidden(['prepay_id']);
     }
+
 
     /*
      * 获取所有订单简要信息（分页）
