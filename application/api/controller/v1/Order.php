@@ -56,7 +56,7 @@ class Order extends BaseController
     }
 
     //用户根据订单状态分页查询历史订单
-    public function getSummaryByStatus($page=1,$size=15,$status){
+    public function getSummaryByStatus($page=1,$size=3,$status){
         (new PagingParameter())->goCheck();
         (new StatusMustBePostiveInt())->goCheck();
         $uid = TokenService::getCurrentUid();
