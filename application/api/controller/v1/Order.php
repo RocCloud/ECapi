@@ -61,7 +61,7 @@ class Order extends BaseController
         (new StatusMustBePostiveInt())->goCheck();
         $uid = TokenService::getCurrentUid();
         $condition = [];
-        if($flag){
+        if($flag && $status == 6 ){
             $condition['user_id'] = array('eq',$uid);
             $condition['status'] = array(array('eq',5),array('eq',$status), 'or');
         }else{
