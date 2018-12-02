@@ -26,8 +26,8 @@ class Order extends BaseModel
         return self::where('user_id','=',$uid)->order('create_time desc')->paginate($size,true,['page'=>$page]);
     }
 
-    public static function getSummaryByStatus($status,$uid,$page=1,$size=15){
-        return self::where('user_id','=',$uid)->where('status','=',$status)->order('create_time desc')->paginate($size,true,['page'=>$page]);
+    public static function getSummaryByStatus($condition,$page=1,$size=15){
+        return self::where($condition)->order('create_time desc')->paginate($size,true,['page'=>$page]);
     }
 
     public static function getSummaryByPage($page=1,$size=20){

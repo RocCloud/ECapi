@@ -56,11 +56,19 @@ class Order extends BaseController
     }
 
     //用户根据订单状态分页查询历史订单
-    public function getSummaryByStatus($page=1,$size=3,$status){
+    public function getSummaryByStatus($page=1,$size=3,$status,$flag=false){
         (new PagingParameter())->goCheck();
         (new StatusMustBePostiveInt())->goCheck();
         $uid = TokenService::getCurrentUid();
-        $pagingOrders=OrderModel::getSummaryByStatus($status,$uid,$page,$size);
+        $condition = [];
+        if($flag){
+            $condition['uid'] = array('eq',$uid);
+            $condition['status'] = array(array('eq',5),array('eq',$status), 'or');
+        }else{
+            $condition['uid'] = array('eq',$uid);
+            $condition['status'] = array('eq',$status);
+        }
+        $pagingOrders=OrderModel::getSummaryByStatus($condition,$page,$size);
         if($pagingOrders->isEmpty()){
             return [
                 'data' => [],
