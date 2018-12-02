@@ -62,10 +62,10 @@ class Order extends BaseController
         $uid = TokenService::getCurrentUid();
         $condition = [];
         if($flag){
-            $condition['uid'] = array('eq',$uid);
+            $condition['user_id'] = array('eq',$uid);
             $condition['status'] = array(array('eq',5),array('eq',$status), 'or');
         }else{
-            $condition['uid'] = array('eq',$uid);
+            $condition['user_id'] = array('eq',$uid);
             $condition['status'] = array('eq',$status);
         }
         $pagingOrders=OrderModel::getSummaryByStatus($condition,$page,$size);
